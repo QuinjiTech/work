@@ -58,14 +58,79 @@ If the OS prober doesn't find Windows, you can manually add it to the GRUB menu:
   ```
 - Run Boot-Repair and use the Recommended repair option. This can often resolve dual-boot issues automatically.
 
-### 5. Windows Bootloader Issues
+- After using Boot-Repar I came to know that my windowsis running on Leagacy mode whereas I was using Linux using UEFI. So make windows operation these are steps which I performed.
 
-- If none of these steps work, the issue might lie with the Windows bootloader itself.
-- Consider using a Windows recovery disk to repair the Windows bootloader. This won't affect your Linux installation but will repair any issues with Windows boot files.
+If your Windows is installed in legacy mode and you have deleted the Linux partitions including the EFI partition created for the Linux installation, you should restore the Windows bootloader for a legacy boot. Here's how to proceed with a Windows installation media:
 
-### 6. Seek Assistance
+1. **Boot from the Windows Installation Media**:
+   - Insert your Windows installation media into the computer.
+   - Boot from it by selecting it in the BIOS boot menu or by setting it as the primary boot device in the BIOS settings.
 
-- If you're still having trouble, consider seeking assistance from Linux Mint or Windows forums, where users with similar hardware configurations may have found specific solutions.
-- Local tech support or a professional with experience in dual-boot systems can also be a valuable resource.
+2. **Navigate to the Command Prompt**:
+   - After you've booted from the media, select the correct language and keyboard input method, then click "Next."
+   - Choose "Repair your computer" at the bottom of the window.
+   - On the "Choose an option" screen, select "Troubleshoot."
+   - Then select "Advanced options" and choose "Command Prompt."
 
-Always proceed carefully when modifying boot configurations, as incorrect settings can complicate boot issues further.
+3. **Use the Command Prompt to Repair the Bootloader**:
+   - Once in the Command Prompt, type the following commands:
+     ```
+     bootrec /fixmbr
+     bootrec /fixboot
+     bootrec /scanos
+     bootrec /rebuildbcd
+     ```
+   - These commands will attempt to fix the Master Boot Record (MBR) and the boot configuration data.
+
+   **Again got error here at last step then performed this 4 and 5**
+
+4. **Use `diskpart` to identify and assign a letter to the EFI partition** (if not already done):
+   ```
+   diskpart
+   list disk
+   select disk # (where # is the number of the disk with the EFI partition)
+   list partition
+   select partition # (the EFI partition number)
+   assign letter=S
+   exit
+   ```
+
+5. **Recreate the UEFI boot files**:
+   ```
+   bcdboot C:\Windows /s S: /f UEFI
+   ```
+   - Replace `C:` with the letter of the Windows installed partition if different, and `S:` with the letter you assigned to the EFI partition.
+   - Here in my case it picked it up with F: and it fixed the issue
+
+After these steps, reboot the system and check if Windows boots up. If you are not comfortable with these operations or if the problem persists, seek professional assistance.
+
+4. **Reboot the Computer**:
+   - After executing the commands, type `exit` to close the Command Prompt.
+   - Restart your computer by typing `shutdown /r /t 0` or by using the power button.
+
+5. **Check if Windows Boots**:
+   - Remove the installation media and let the computer boot from the hard drive.
+   - Check to see if Windows boots up normally.
+
+If you encounter an "Access is denied" error when running `bootrec /fixboot`, you can try the following workaround:
+
+1. **Boot back into the Windows Installation Media** and open the Command Prompt as before.
+2. Type the following commands:
+   ```
+   diskpart
+   list disk
+   select disk # (where # is the number of your Windows disk)
+   list volume
+   ```
+3. Find the volume number for your System Reserved partition (or the primary Windows partition if you don't have a System Reserved partition).
+
+### Did this first
+4. Then type:
+   ```
+   select volume # (where # is the number of the System Reserved or Windows partition)
+   active
+   exit
+   ```
+5. Now, try the `bootrec` commands again.
+
+If Windows still doesn't boot, you might have to consider restoring from a system image backup if you have one, or performing a repair installation of Windows. If these options are not viable or the issue persists, seeking professional technical support may be necessary.
