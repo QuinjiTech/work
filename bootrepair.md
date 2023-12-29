@@ -82,7 +82,7 @@ If your Windows is installed in legacy mode and you have deleted the Linux parti
      ```
    - These commands will attempt to fix the Master Boot Record (MBR) and the boot configuration data.
 
-   **Again got error here at last step then performed this 4 and 5**
+   ### Again got error here at last step then performed this 4 and 5
 
 4. **Use `diskpart` to identify and assign a letter to the EFI partition** (if not already done):
    ```
