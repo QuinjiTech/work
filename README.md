@@ -20,7 +20,7 @@ Your contributions make this repository a rich and valuable resource. We encoura
 
 Stay up-to-date with the latest additions and updates:
 
-- ![Twitter](https://img.shields.io/twitter/url?label=Follow%20us%20on%20Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fquinji)
+- [![Twitter](https://img.shields.io/twitter/url?label=Follow%20us%20on%20Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fquinji)](https://twitter.com/quinji)
 - [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect%20with%20us-blue)](https://www.linkedin.com/company/quinji-tech)
 - [![Facebook](https://img.shields.io/badge/Facebook-Join%20our%20community-blue)](https://www.facebook.com/QuinjiTech/)
 - [![Instagram](https://img.shields.io/badge/Instagram-Follow%20our%20journey-purple)](https://www.instagram.com/quinjitech/)
